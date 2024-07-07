@@ -1,0 +1,26 @@
+@import './../../assets/scss/global';
+
+
+.RepositoryDetails{
+    padding: $app-default-content-padding;
+
+    .RepositoryStats{
+        display: flex;
+        margin-top: $app-large-gap;
+        gap: $app-default-content-padding;
+        justify-content: flex-end;
+    }
+}
+
+.IssuesList{
+    padding: $app-default-content-padding;
+
+}
+
+.PaginationButtons {
+    width: 100%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+  }

@@ -1,0 +1,36 @@
+@import './../../assets/scss/global';
+
+.MainCardContainer{
+    position: absolute;
+    width: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    :global{
+        .ant-card{
+            min-height: 30rem;
+
+            .ant-card-body{
+                width: 100%;  
+                min-height: 25rem;
+                margin: auto;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+    }
+
+    .MainCardContent{
+        text-align: center;
+
+        .Description{
+            @extend %text-heading;
+        }
+    }
+
+    .ErrorText{
+        @extend %text-error;
+    }
+}

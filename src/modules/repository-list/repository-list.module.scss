@@ -1,0 +1,32 @@
+@import './../../assets/scss/global';
+
+.RepositoryContainer {
+  height: calc(100vh - 1%);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  margin: auto;
+
+  .RepositoryList {
+    display: grid;
+    margin: auto;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 16px;
+    overflow-y: auto;
+
+    @media (min-width: 768px) {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @media (min-width: 1024px) {
+      grid-template-columns: 1fr 1fr ;
+    }
+  }
+
+  .PaginationButtons {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+  }
+}

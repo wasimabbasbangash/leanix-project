@@ -1,0 +1,20 @@
+:root {
+    --app-content-padding: 30px;
+}
+
+@media (max-width: 768px) {
+    :root {
+      --app-content-padding: 10px;
+    }
+  }
+
+$app-default-content-padding: var(--app-content-padding);
+
+$app-default-border-radius: 4px;
+$input-height: 40px;
+$size-default: 16px;
+$size-large: 32px;
+$size-medium: 8px;
+
+$app-default-gap: 8px;
+$app-large-gap: 16px;

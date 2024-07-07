@@ -1,0 +1,26 @@
+%text-regular{
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--colorBlack);
+
+    @media (max-width: 768px){
+        font-size: .7rem;
+    }
+}
+
+%text-heading {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1em;
+
+    @media (max-width: 768px){
+        font-size: 1rem;
+    }
+}
+
+%text-error {
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.5em;
+    color: red;
+}
