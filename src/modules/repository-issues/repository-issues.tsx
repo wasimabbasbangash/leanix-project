@@ -27,7 +27,7 @@ export const RepositoryIssues: React.FC = (): ReactElement => {
   const [hasPreviousPage, setHasPreviousPage] = useState<boolean>(false);
   const [hasNextPage, setHasNextPage] = useState<boolean>(false);
 
-  const { loading, error, data, fetchMore, refetch } = useQuery(GET_REPOSITORY_DETAILS_WITH_ISSUES, {
+  const { loading, error, data, fetchMore } = useQuery(GET_REPOSITORY_DETAILS_WITH_ISSUES, {
     variables: { owner, name, first: 5, after: issueCursor },
     skip: !owner || !name,
     onCompleted: (data) => {

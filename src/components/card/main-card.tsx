@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 /** styles scss */
 import styles from './main-card.module.scss';
-import { Button, Card, Input, message } from 'antd';
+import { Button, Card, Input } from 'antd';
 import { useToken } from './../../context/token-context';
 import { useLazyQuery } from '@apollo/client';
 import { CHECK_TOKEN_VALIDITY } from './../../services/queries';
