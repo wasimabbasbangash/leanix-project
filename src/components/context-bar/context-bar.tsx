@@ -5,14 +5,10 @@ interface ContextBarProps {
   children: React.ReactNode;
 }
 
-const ContextBar: React.FC<ContextBarProps> = ({ children }) => {
+export const ContextBar: React.FC<ContextBarProps> = ({ children }) => {
   return (
     <div className={styles.ContextBar}>
-      <div className={styles.ButtonContainer}>
-        {children}
-      </div>
+      <div className={styles.ButtonContainer}>{children}</div>
     </div>
   );
 };
-
-export default ContextBar;

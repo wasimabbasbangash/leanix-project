@@ -1,11 +1,18 @@
 // CustomApolloProvider.tsx
 import React from 'react';
-import { ApolloProvider as OriginalApolloProvider } from '@apollo/client';
-import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
-import { useToken } from './../context/token-context';
+import {
+  ApolloProvider as OriginalApolloProvider,
+  ApolloClient,
+  InMemoryCache,
+  createHttpLink,
+} from '@apollo/client';
 
-const CustomApolloProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+import { setContext } from '@apollo/client/link/context';
+import { useToken } from '../hooks/useTokenContext';
+
+const CustomApolloProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const { token } = useToken();
 
   const httpLink = createHttpLink({
@@ -26,7 +33,9 @@ const CustomApolloProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     cache: new InMemoryCache(),
   });
 
-  return <OriginalApolloProvider client={client}>{children}</OriginalApolloProvider>;
+  return (
+    <OriginalApolloProvider client={client}>{children}</OriginalApolloProvider>
+  );
 };
 
 export default CustomApolloProvider;

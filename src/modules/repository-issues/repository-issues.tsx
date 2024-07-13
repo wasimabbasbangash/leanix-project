@@ -1,14 +1,14 @@
 import React, { ReactElement, useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import ActionButton from './../../components/action-button/action-button';
-import ContextBar from './../../components/context-bar/context-bar';
-import Spinner from './../../components/spinner/spinner';
-import { GET_REPOSITORY_DETAILS_WITH_ISSUES } from './../../services/queries';
-import styles from './repository-issues.module.scss';
 import { StarFilled, MergeFilled } from '@ant-design/icons';
-import useDetectPageReload from './../../hooks/useDetectPageReload';
-import IssueList, { IssueProps } from './../../components/issue-list/issue-list';
+import ActionButton from '../../components/action-button/action-button';
+import { ContextBar } from '../../components/context-bar/context-bar';
+import Spinner from '../../components/spinner/spinner';
+import { GET_REPOSITORY_DETAILS_WITH_ISSUES } from '../../services/queries';
+import styles from './repository-issues.module.scss';
+import useDetectPageReload from '../../hooks/useDetectPageReload';
+import { IssueList, IssueProps } from '../../components/issue-list/issue-list';
 
 export const RepositoryIssues: React.FC = (): ReactElement => {
   const location = useLocation();
@@ -27,14 +27,19 @@ export const RepositoryIssues: React.FC = (): ReactElement => {
   const [hasPreviousPage, setHasPreviousPage] = useState<boolean>(false);
   const [hasNextPage, setHasNextPage] = useState<boolean>(false);
 
-  const { loading, error, data, fetchMore } = useQuery(GET_REPOSITORY_DETAILS_WITH_ISSUES, {
-    variables: { owner, name, first: 5, after: issueCursor },
-    skip: !owner || !name,
-    onCompleted: (data) => {
-      setHasNextPage(data?.repository?.issues.pageInfo.hasNextPage ?? false);
-      setHasPreviousPage(issueCursorStack.length > 0);
-    },
-  });
+  const { loading, error, data, fetchMore } = useQuery(
+    GET_REPOSITORY_DETAILS_WITH_ISSUES,
+    {
+      variables: { owner, name, first: 5, after: issueCursor },
+      skip: !owner || !name,
+      onCompleted: (repositoryData) => {
+        setHasNextPage(
+          repositoryData?.repository?.issues.pageInfo.hasNextPage ?? false
+        );
+        setHasPreviousPage(issueCursorStack.length > 0);
+      },
+    }
+  );
 
   const handleChangeApiKey = (): void => {
     navigate('/');
@@ -49,7 +54,8 @@ export const RepositoryIssues: React.FC = (): ReactElement => {
 
   const handleNextIssues = () => {
     if (data?.repository?.issues.pageInfo.hasNextPage) {
-      const lastIssue = data.repository.issues.edges[data.repository.issues.edges.length - 1];
+      const lastIssue =
+        data.repository.issues.edges[data.repository.issues.edges.length - 1];
       if (lastIssue && lastIssue.cursor) {
         const newCursor = lastIssue.cursor;
         setIssueCursorStack((prevStack) => [...prevStack, newCursor]);
@@ -59,7 +65,9 @@ export const RepositoryIssues: React.FC = (): ReactElement => {
           variables: { owner, name, first: 5, after: newCursor },
           updateQuery: (prevResult, { fetchMoreResult }) => {
             if (!fetchMoreResult) return prevResult;
-            setHasNextPage(fetchMoreResult.repository.issues.pageInfo.hasNextPage);
+            setHasNextPage(
+              fetchMoreResult.repository.issues.pageInfo.hasNextPage
+            );
             setHasPreviousPage(true);
             return fetchMoreResult;
           },
@@ -71,8 +79,8 @@ export const RepositoryIssues: React.FC = (): ReactElement => {
   const handlePreviousIssues = () => {
     if (issueCursorStack.length > 0) {
       const newCursorStack = [...issueCursorStack];
-      const previousCursor = newCursorStack[newCursorStack.length - 2]; 
-      newCursorStack.pop(); 
+      const previousCursor = newCursorStack[newCursorStack.length - 2];
+      newCursorStack.pop();
       setIssueCursorStack(newCursorStack);
       setIssueCursor(previousCursor || null);
       console.log('Previous Issues - after cursor:', previousCursor);
@@ -80,7 +88,9 @@ export const RepositoryIssues: React.FC = (): ReactElement => {
         variables: { owner, name, first: 5, after: previousCursor },
         updateQuery: (prevResult, { fetchMoreResult }) => {
           if (!fetchMoreResult) return prevResult;
-          setHasNextPage(fetchMoreResult.repository.issues.pageInfo.hasNextPage);
+          setHasNextPage(
+            fetchMoreResult.repository.issues.pageInfo.hasNextPage
+          );
           setHasPreviousPage(newCursorStack.length > 0);
           return fetchMoreResult;
         },
@@ -91,11 +101,12 @@ export const RepositoryIssues: React.FC = (): ReactElement => {
   if (loading) return <Spinner />;
   if (error) return <p>Error: {error.message}</p>;
 
-  const issues: IssueProps[] = data?.repository?.issues.edges.map((issue: any) => ({
-    title: issue.node.title,
-    createDt: issue.node.createdAt,
-    url: issue.node.url,
-  })) || [];
+  const issues: IssueProps[] =
+    data?.repository?.issues.edges.map((issue: any) => ({
+      title: issue.node.title,
+      createDt: issue.node.createdAt,
+      url: issue.node.url,
+    })) || [];
 
   return (
     <div className={styles.RepositoryIssuesContainer}>
@@ -113,9 +124,21 @@ export const RepositoryIssues: React.FC = (): ReactElement => {
             <h1>{data.repository.name}</h1>
             <p>{data.repository.description}</p>
             <div className={styles.RepositoryStats}>
-              <p><strong><StarFilled style={{ color: '#f7d600' }}/></strong> {data.repository.stargazerCount}</p>
-              <p><strong>Watchers:</strong> {data.repository.watchers.totalCount}</p>
-              <p><strong><MergeFilled /></strong> {data.repository.forkCount}</p>
+              <p>
+                <strong>
+                  <StarFilled style={{ color: '#f7d600' }} />
+                </strong>{' '}
+                {data.repository.stargazerCount}
+              </p>
+              <p>
+                <strong>Watchers:</strong> {data.repository.watchers.totalCount}
+              </p>
+              <p>
+                <strong>
+                  <MergeFilled />
+                </strong>{' '}
+                {data.repository.forkCount}
+              </p>
             </div>
           </div>
           <div className={styles.IssuesList}>

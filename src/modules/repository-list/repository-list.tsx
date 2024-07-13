@@ -1,15 +1,15 @@
 import React, { ReactElement, useEffect, useState } from 'react';
-import { Repository } from './../../core/models/instances/repository';
 import { useQuery, QueryResult } from '@apollo/client';
-import { SEARCH_PUBLIC_REPOSITORIES } from './../../services/queries';
-import styles from './repository-list.module.scss';
-import { DetailsCard } from './../../components/issue-card/issue-card';
-import ActionButton from './../../components/action-button/action-button';
-import Spinner from './../../components/spinner/spinner';
-import ContextBar from './../../components/context-bar/context-bar';
 import { useNavigate } from 'react-router-dom';
-import { useToken } from './../../context/token-context';
-import useDetectPageReload from './../../hooks/useDetectPageReload';
+import Repository from '../../core/models/instances/repository';
+import { SEARCH_PUBLIC_REPOSITORIES } from '../../services/queries';
+import styles from './repository-list.module.scss';
+import { DetailsCard } from '../../components/issue-card/issue-card';
+import ActionButton from '../../components/action-button/action-button';
+import Spinner from '../../components/spinner/spinner';
+import { ContextBar } from '../../components/context-bar/context-bar';
+import { useToken } from '../../hooks/useTokenContext';
+import useDetectPageReload from '../../hooks/useDetectPageReload';
 
 interface RepositoryNode extends Repository {
   id: string;
@@ -39,16 +39,21 @@ interface CursorState {
 export const RepositoryList: React.FC = (): ReactElement => {
   const itemsPerPage = 10;
   const navigate = useNavigate();
-  const { token } = useToken(); 
+  const { token } = useToken();
   const [state, setState] = useState<CursorState>({ cursors: [], page: 1 });
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const isReloaded = useDetectPageReload();
-  if(isReloaded){
-    navigate('/')
+  if (isReloaded) {
+    navigate('/');
   }
-  
-  const { error, data, refetch, fetchMore }: QueryResult<SearchPublicRepositoriesResult> = useQuery(
+
+  const {
+    error,
+    data,
+    refetch,
+    fetchMore,
+  }: QueryResult<SearchPublicRepositoriesResult> = useQuery(
     SEARCH_PUBLIC_REPOSITORIES,
     {
       variables: { query: 'stars:>0', first: itemsPerPage, after: null },
@@ -62,7 +67,7 @@ export const RepositoryList: React.FC = (): ReactElement => {
 
   useEffect(() => {
     if (token) {
-      refetch(); 
+      refetch();
     }
   }, [token, refetch]);
 
@@ -98,7 +103,7 @@ export const RepositoryList: React.FC = (): ReactElement => {
             return {
               search: {
                 ...fetchMoreResult.search,
-                edges: [ ...fetchMoreResult.search.edges],
+                edges: [...fetchMoreResult.search.edges],
                 pageInfo: fetchMoreResult.search.pageInfo,
               },
             };
@@ -126,18 +131,20 @@ export const RepositoryList: React.FC = (): ReactElement => {
   };
 
   const handleCardClick = (node: RepositoryNode): void => {
-    if(node.owner?.login && node.name)
-      navigate(`/repository/issues?owner=${node.owner.login}&name=${node.name}`);
+    if (node.owner?.login && node.name)
+      navigate(
+        `/repository/issues?owner=${node.owner.login}&name=${node.name}`
+      );
   };
 
   return (
     <div className={styles.RepositoryContainer}>
-       <ContextBar>
-        <ActionButton 
-          title="Change API Key" 
-          onClick={handleChangeApiKey} 
-          size="middle" 
-          type="primary" 
+      <ContextBar>
+        <ActionButton
+          title="Change API Key"
+          onClick={handleChangeApiKey}
+          size="middle"
+          type="primary"
         />
       </ContextBar>
       <div className={styles.RepositoryList}>
@@ -148,13 +155,21 @@ export const RepositoryList: React.FC = (): ReactElement => {
             user={node.owner?.login}
             description={node.description}
             stargazers={node.stargazers?.totalCount}
-              onClickHandler={()=>handleCardClick(node)}
+            onClickHandler={() => handleCardClick(node)}
           />
         ))}
       </div>
       <div className={styles.PaginationButtons}>
-        <ActionButton title="Previous" onClick={() => handlePageChange(state.page - 1)} disabled={!pageInfo.hasPreviousPage} />
-        <ActionButton title="Next" onClick={() => handlePageChange(state.page + 1)} disabled={!pageInfo.hasNextPage} />
+        <ActionButton
+          title="Previous"
+          onClick={() => handlePageChange(state.page - 1)}
+          disabled={!pageInfo.hasPreviousPage}
+        />
+        <ActionButton
+          title="Next"
+          onClick={() => handlePageChange(state.page + 1)}
+          disabled={!pageInfo.hasNextPage}
+        />
       </div>
       {isLoading && <Spinner />}
     </div>

@@ -13,8 +13,12 @@ interface CheckTokenValidityData {
   };
 }
 
-const CheckTokenValidity: React.FC<CheckTokenValidityProps> = ({ onValid, onInvalid }) => {
-  const { loading, error, data }: QueryResult<CheckTokenValidityData> = useQuery(CHECK_TOKEN_VALIDITY);
+const CheckTokenValidity: React.FC<CheckTokenValidityProps> = ({
+  onValid,
+  onInvalid,
+}) => {
+  const { loading, error, data }: QueryResult<CheckTokenValidityData> =
+    useQuery(CHECK_TOKEN_VALIDITY);
 
   useEffect(() => {
     if (!loading) {

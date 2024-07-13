@@ -1,12 +1,17 @@
-import { BaseInstance } from "./base";
+import { BaseInstance } from './base';
 
-export class Repository extends BaseInstance {
-    name?: string;
-    owner?: {
-      login: string;
-    };
-    description?: string;
-    stargazers?: {
-      totalCount: number
-    };
-  }
+class Repository extends BaseInstance {
+  name?: string;
+
+  owner?: {
+    login: string;
+  };
+
+  description?: string;
+
+  stargazers?: {
+    totalCount: number;
+  };
+}
+
+export default Repository;

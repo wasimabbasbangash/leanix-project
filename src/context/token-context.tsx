@@ -1,12 +1,19 @@
-// token-context.tsx
-import React, { createContext, useState, ReactNode, useContext, useEffect } from 'react';
+import React, {
+  createContext,
+  useState,
+  ReactNode,
+  useEffect,
+  useMemo,
+} from 'react';
 
-interface TokenContextProps {
+export interface TokenContextProps {
   token: string;
   setToken: (token: string) => void;
 }
 
-const TokenContext = createContext<TokenContextProps | undefined>(undefined);
+export const TokenContext = createContext<TokenContextProps | undefined>(
+  undefined
+);
 
 interface TokenProviderProps {
   children: ReactNode;
@@ -27,18 +34,11 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({ children }) => {
     localStorage.setItem('token', newToken);
   };
 
+  const contextValue = useMemo(() => ({ token, setToken }), [token, setToken]);
+
   return (
-    <TokenContext.Provider value={{ token, setToken }}>
+    <TokenContext.Provider value={contextValue}>
       {children}
     </TokenContext.Provider>
   );
-};
-
-// Custom hook to use the TokenContext
-export const useToken = (): TokenContextProps => {
-  const context = useContext(TokenContext);
-  if (!context) {
-    throw new Error('useToken must be used within a TokenProvider');
-  }
-  return context;
 };

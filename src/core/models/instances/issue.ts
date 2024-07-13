@@ -1,8 +1,13 @@
-import { BaseInstance } from "./base";
+import { BaseInstance } from './base';
 
-export class Issue extends BaseInstance{
-    user?: string;
-    title?: string;
-    descrtiption?: string;
-    state?: string;
+class Issue extends BaseInstance {
+  user?: string;
+
+  title?: string;
+
+  descrtiption?: string;
+
+  state?: string;
 }
+
+export default Issue;

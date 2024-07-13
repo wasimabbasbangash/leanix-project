@@ -2,13 +2,13 @@ import React, { ReactElement, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 /** styles scss */
-import styles from './main-card.module.scss';
 import { Button, Card, Input } from 'antd';
-import { useToken } from './../../context/token-context';
 import { useLazyQuery } from '@apollo/client';
-import { CHECK_TOKEN_VALIDITY } from './../../services/queries';
+import styles from './main-card.module.scss';
+import { useToken } from '../../hooks/useTokenContext';
+import { CHECK_TOKEN_VALIDITY } from '../../services/queries';
 
-export const MainCard: React.FC = (props): ReactElement => {
+export const MainCard: React.FC = (): ReactElement => {
   const { setToken } = useToken();
   const [inputToken, setInputToken] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
@@ -33,9 +33,9 @@ export const MainCard: React.FC = (props): ReactElement => {
   };
 
   const handleSaveToken = (): void => {
-    if(!error){
-        setToken(inputToken); 
-        checkTokenValidity({ variables: { token: inputToken } }); 
+    if (!error) {
+      setToken(inputToken);
+      checkTokenValidity({ variables: { token: inputToken } });
     }
   };
 
@@ -56,7 +56,7 @@ export const MainCard: React.FC = (props): ReactElement => {
           </p>
           <p>Your API token</p>
           <Input value={inputToken} onChange={handleInputChange} />
-          {error && <p className={styles.ErrorText}>{error}</p>} {/* Display the error message */}
+          {error && <p className={styles.ErrorText}>{error}</p>}
         </div>
       </Card>
     </div>

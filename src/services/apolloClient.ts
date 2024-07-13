@@ -1,14 +1,13 @@
 import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
-import { useToken } from './../context/token-context';
-
+import { useToken } from '../hooks/useTokenContext';
 
 const httpLink = createHttpLink({
-    uri: 'https://api.github.com/graphql',
+  uri: 'https://api.github.com/graphql',
 });
 
 const authLink = setContext((_, { headers }) => {
-    const { token } = useToken();
+  const { token } = useToken();
   return {
     headers: {
       ...headers,
