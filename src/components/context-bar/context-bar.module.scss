@@ -1,14 +1,13 @@
 @import './../../assets/scss/global';
 
 .ContextBar {
-    display: flex;
-    justify-content: flex-end;
-    padding: 10px;
-    background-color: $color-background;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .ButtonContainer {
-    margin-left: auto;
-  }
-  
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+  background-color: $color-background;
+  border-bottom: 1px solid #ddd;
+}
+
+.ButtonContainer {
+  margin-left: auto;
+}

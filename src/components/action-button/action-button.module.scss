@@ -1,11 +1,11 @@
 @import './../../assets/scss/global';
 
-.ActionButton{
-    min-width: 80px;
-    margin: 0 $app-default-gap;
-    :global{
-        .ant-btn{
-            width: 100%;
-        }
+.ActionButton {
+  min-width: 80px;
+  margin: 0 $app-default-gap;
+  :global {
+    .ant-btn {
+      width: 100%;
     }
+  }
 }

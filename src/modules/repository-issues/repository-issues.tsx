@@ -1,14 +1,14 @@
 import React, { ReactElement, useState, useEffect } from 'react';
+import { IssueList, IssueProps } from 'components/issue-list/issue-list';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { StarFilled, MergeFilled } from '@ant-design/icons';
-import ActionButton from '../../components/action-button/action-button';
-import { ContextBar } from '../../components/context-bar/context-bar';
-import Spinner from '../../components/spinner/spinner';
-import { GET_REPOSITORY_DETAILS_WITH_ISSUES } from '../../services/queries';
+import ActionButton from 'components/action-button/action-button';
+import { ContextBar } from 'components/context-bar/context-bar';
+import Spinner from 'components/spinner/spinner';
+import { GET_REPOSITORY_DETAILS_WITH_ISSUES } from 'services/queries';
 import styles from './repository-issues.module.scss';
-import useDetectPageReload from '../../hooks/useDetectPageReload';
-import { IssueList, IssueProps } from '../../components/issue-list/issue-list';
+import useDetectPageReload from 'hooks/useDetectPageReload';
 
 export const RepositoryIssues: React.FC = (): ReactElement => {
   const location = useLocation();
