@@ -1,15 +1,18 @@
 import React, { ReactElement, useEffect, useState } from 'react';
-import { useQuery, QueryResult } from '@apollo/client';
+
+import { QueryResult, useQuery } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
-import Repository from '../../core/models/instances/repository';
-import { SEARCH_PUBLIC_REPOSITORIES } from '../../services/queries';
-import styles from './repository-list.module.scss';
-import { DetailsCard } from '../../components/issue-card/issue-card';
+
 import ActionButton from '../../components/action-button/action-button';
-import Spinner from '../../components/spinner/spinner';
 import { ContextBar } from '../../components/context-bar/context-bar';
-import { useToken } from '../../hooks/useTokenContext';
+import { DetailsCard } from '../../components/issue-card/issue-card';
+import Spinner from '../../components/spinner/spinner';
+import Repository from '../../core/models/instances/repository';
 import useDetectPageReload from '../../hooks/useDetectPageReload';
+import { useToken } from '../../hooks/useTokenContext';
+import { SEARCH_PUBLIC_REPOSITORIES } from '../../services/queries';
+
+import styles from './repository-list.module.scss';
 
 interface RepositoryNode extends Repository {
   id: string;
@@ -43,6 +46,7 @@ export const RepositoryList: React.FC = (): ReactElement => {
   const [state, setState] = useState<CursorState>({ cursors: [], page: 1 });
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  // Detect if the page has been reloaded and navigate to home if true
   const isReloaded = useDetectPageReload();
   if (isReloaded) {
     navigate('/');
@@ -65,12 +69,14 @@ export const RepositoryList: React.FC = (): ReactElement => {
     }
   );
 
+  // Refetch data when the token changes
   useEffect(() => {
     if (token) {
       refetch();
     }
   }, [token, refetch]);
 
+  // Update cursor state when new data is fetched
   useEffect(() => {
     if (
       data &&
@@ -86,11 +92,13 @@ export const RepositoryList: React.FC = (): ReactElement => {
 
   const handlePageChange = async (newPage: number) => {
     if (newPage < state.page) {
+      // Navigate to the previous page
       setState((prevState) => ({
         ...prevState,
         page: newPage,
       }));
     } else if (newPage > state.page) {
+      // Navigate to the next page
       setIsLoading(true);
       try {
         await fetchMore({

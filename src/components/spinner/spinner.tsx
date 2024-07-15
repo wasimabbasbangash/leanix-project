@@ -1,5 +1,7 @@
 import React from 'react';
+
 import { Spin } from 'antd';
+
 import styles from './spinner.module.scss';
 
 const Spinner: React.FC = () => {

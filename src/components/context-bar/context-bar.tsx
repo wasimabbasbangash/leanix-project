@@ -1,4 +1,5 @@
 import React from 'react';
+
 import styles from './context-bar.module.scss';
 
 interface ContextBarProps {

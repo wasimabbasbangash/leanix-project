@@ -1,14 +1,16 @@
-import React, { ReactElement, useState, useEffect } from 'react';
-import { IssueList, IssueProps } from 'components/issue-list/issue-list';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { ReactElement, useEffect, useState } from 'react';
+
+import { MergeFilled, StarFilled } from '@ant-design/icons';
 import { useQuery } from '@apollo/client';
-import { StarFilled, MergeFilled } from '@ant-design/icons';
 import ActionButton from 'components/action-button/action-button';
 import { ContextBar } from 'components/context-bar/context-bar';
+import { IssueList, IssueProps } from 'components/issue-list/issue-list';
 import Spinner from 'components/spinner/spinner';
-import { GET_REPOSITORY_DETAILS_WITH_ISSUES } from 'services/queries';
-import styles from './repository-issues.module.scss';
 import useDetectPageReload from 'hooks/useDetectPageReload';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { GET_REPOSITORY_DETAILS_WITH_ISSUES } from 'services/queries';
+
+import styles from './repository-issues.module.scss';
 
 export const RepositoryIssues: React.FC = (): ReactElement => {
   const location = useLocation();
@@ -17,6 +19,7 @@ export const RepositoryIssues: React.FC = (): ReactElement => {
   const owner = params.get('owner');
   const name = params.get('name');
 
+  // Detect if the page has been reloaded and navigate to home if true
   const isReloaded = useDetectPageReload();
   if (isReloaded) {
     navigate('/');
@@ -32,6 +35,7 @@ export const RepositoryIssues: React.FC = (): ReactElement => {
     {
       variables: { owner, name, first: 5, after: issueCursor },
       skip: !owner || !name,
+      // Update pagination states when the query completes
       onCompleted: (repositoryData) => {
         setHasNextPage(
           repositoryData?.repository?.issues.pageInfo.hasNextPage ?? false
@@ -45,6 +49,7 @@ export const RepositoryIssues: React.FC = (): ReactElement => {
     navigate('/');
   };
 
+  // Update pagination states when data changes
   useEffect(() => {
     if (data) {
       setHasNextPage(data.repository.issues.pageInfo.hasNextPage);

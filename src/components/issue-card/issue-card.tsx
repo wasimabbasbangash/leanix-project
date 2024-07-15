@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react';
 
 /** styles scss */
 import { Card } from 'antd';
+
 import styles from './issue-card.module.scss';
 
 export interface DetailsCardProps {

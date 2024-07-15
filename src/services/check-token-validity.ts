@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
-import { useQuery, QueryResult } from '@apollo/client';
+
+import { QueryResult, useQuery } from '@apollo/client';
+
 import { CHECK_TOKEN_VALIDITY } from './queries';
 
 interface CheckTokenValidityProps {
