@@ -22,6 +22,7 @@
   "plugins": ["react", "@typescript-eslint", "prettier", "import"],
   "rules": {
     "prettier/prettier": "error",
+    "no-console": "off",
     "react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": [
       1,
@@ -42,34 +43,34 @@
     "react/function-component-definition": "off",
     "import/prefer-default-export": "off",
     "react/require-default-props": "off",
-    "import/order": [
-      "error",
-      {
-        "groups": [
-          "builtin",
-          "external",
-          "internal",
-          "parent",
-          "sibling",
-          "index",
-          "object",
-          "type"
-        ],
-        "pathGroups": [
-          {
-            "pattern": "react",
-            "group": "builtin",
-            "position": "before"
-          }
-        ],
-        "pathGroupsExcludedImportTypes": ["builtin"],
-        "newlines-between": "always",
-        "alphabetize": {
-          "order": "asc",
-          "caseInsensitive": true
-        }
-      }
-    ],
+    // "import/order": [
+    //   "error",
+    //   {
+    //     "groups": [
+    //       "builtin",
+    //       "external",
+    //       "internal",
+    //       "parent",
+    //       "sibling",
+    //       "index",
+    //       "object",
+    //       "type"
+    //     ],
+    //     "pathGroups": [
+    //       {
+    //         "pattern": "react",
+    //         "group": "builtin",
+    //         "position": "before"
+    //       }
+    //     ],
+    //     "pathGroupsExcludedImportTypes": ["builtin"],
+    //     "newlines-between": "always",
+    //     "alphabetize": {
+    //       "order": "asc",
+    //       "caseInsensitive": true
+    //     }
+    //   }
+    // ],
     "sort-imports": [
       "error",
       {

@@ -2,37 +2,20 @@ import React, { ReactElement, useEffect, useState } from 'react';
 
 import { QueryResult, useQuery } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
+import {
+  RepositoryNode,
+  SearchPublicRepositoriesResult,
+} from 'core/models/interfaces/search-public-repository-result';
 
 import ActionButton from '../../components/action-button/action-button';
 import { ContextBar } from '../../components/context-bar/context-bar';
 import { DetailsCard } from '../../components/issue-card/issue-card';
 import Spinner from '../../components/spinner/spinner';
-import Repository from '../../core/models/instances/repository';
 import useDetectPageReload from '../../hooks/useDetectPageReload';
 import { useToken } from '../../hooks/useTokenContext';
 import { SEARCH_PUBLIC_REPOSITORIES } from '../../services/queries';
 
 import styles from './repository-list.module.scss';
-
-interface RepositoryNode extends Repository {
-  id: string;
-  url: string;
-}
-
-interface SearchPublicRepositoriesResult {
-  search: {
-    repositoryCount: number;
-    edges: Array<{
-      node: RepositoryNode;
-    }>;
-    pageInfo: {
-      endCursor: string | null;
-      hasNextPage: boolean;
-      startCursor: string | null;
-      hasPreviousPage: boolean;
-    };
-  };
-}
 
 interface CursorState {
   cursors: (string | null)[];
@@ -83,7 +66,7 @@ export const RepositoryList: React.FC = (): ReactElement => {
       data.search.pageInfo.endCursor &&
       !state.cursors.includes(data.search.pageInfo.endCursor)
     ) {
-      setState((prevState) => ({
+      setState(prevState => ({
         ...prevState,
         cursors: [...prevState.cursors, data.search.pageInfo.endCursor],
       }));
@@ -93,7 +76,7 @@ export const RepositoryList: React.FC = (): ReactElement => {
   const handlePageChange = async (newPage: number) => {
     if (newPage < state.page) {
       // Navigate to the previous page
-      setState((prevState) => ({
+      setState(prevState => ({
         ...prevState,
         page: newPage,
       }));
@@ -117,7 +100,7 @@ export const RepositoryList: React.FC = (): ReactElement => {
             };
           },
         });
-        setState((prevState) => ({
+        setState(prevState => ({
           ...prevState,
           page: newPage,
         }));
@@ -149,10 +132,10 @@ export const RepositoryList: React.FC = (): ReactElement => {
     <div className={styles.RepositoryContainer}>
       <ContextBar>
         <ActionButton
-          title="Change API Key"
+          title='Change API Key'
           onClick={handleChangeApiKey}
-          size="middle"
-          type="primary"
+          size='middle'
+          type='primary'
         />
       </ContextBar>
       <div className={styles.RepositoryList}>
@@ -169,12 +152,12 @@ export const RepositoryList: React.FC = (): ReactElement => {
       </div>
       <div className={styles.PaginationButtons}>
         <ActionButton
-          title="Previous"
+          title='Previous'
           onClick={() => handlePageChange(state.page - 1)}
           disabled={!pageInfo.hasPreviousPage}
         />
         <ActionButton
-          title="Next"
+          title='Next'
           onClick={() => handlePageChange(state.page + 1)}
           disabled={!pageInfo.hasNextPage}
         />

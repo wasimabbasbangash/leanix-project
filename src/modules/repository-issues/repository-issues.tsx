@@ -36,7 +36,7 @@ export const RepositoryIssues: React.FC = (): ReactElement => {
       variables: { owner, name, first: 5, after: issueCursor },
       skip: !owner || !name,
       // Update pagination states when the query completes
-      onCompleted: (repositoryData) => {
+      onCompleted: repositoryData => {
         setHasNextPage(
           repositoryData?.repository?.issues.pageInfo.hasNextPage ?? false
         );
@@ -63,7 +63,7 @@ export const RepositoryIssues: React.FC = (): ReactElement => {
         data.repository.issues.edges[data.repository.issues.edges.length - 1];
       if (lastIssue && lastIssue.cursor) {
         const newCursor = lastIssue.cursor;
-        setIssueCursorStack((prevStack) => [...prevStack, newCursor]);
+        setIssueCursorStack(prevStack => [...prevStack, newCursor]);
         setIssueCursor(newCursor);
         console.log('Next Issues - after cursor:', newCursor);
         fetchMore({
@@ -117,10 +117,10 @@ export const RepositoryIssues: React.FC = (): ReactElement => {
     <div className={styles.RepositoryIssuesContainer}>
       <ContextBar>
         <ActionButton
-          title="Change API Key"
+          title='Change API Key'
           onClick={handleChangeApiKey}
-          size="middle"
-          type="primary"
+          size='middle'
+          type='primary'
         />
       </ContextBar>
       {data?.repository && (
@@ -152,17 +152,17 @@ export const RepositoryIssues: React.FC = (): ReactElement => {
           </div>
           <div className={styles.PaginationButtons}>
             <ActionButton
-              title="Previous Issues"
+              title='Previous Issues'
               onClick={handlePreviousIssues}
-              size="middle"
-              type="default"
+              size='middle'
+              type='default'
               disabled={!hasPreviousPage}
             />
             <ActionButton
-              title="Next Issues"
+              title='Next Issues'
               onClick={handleNextIssues}
-              size="middle"
-              type="default"
+              size='middle'
+              type='default'
               disabled={!hasNextPage}
             />
           </div>

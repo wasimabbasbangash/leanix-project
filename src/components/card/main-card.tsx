@@ -17,7 +17,7 @@ export const MainCard: React.FC = (): ReactElement => {
   const navigate = useNavigate();
   // Lazy query to check the validity of the entered GitHub API token
   const [checkTokenValidity] = useLazyQuery(CHECK_TOKEN_VALIDITY, {
-    onCompleted: (data) => {
+    onCompleted: data => {
       if (data.viewer) {
         setToken(inputToken); // If token is valid, set it in the global context
         navigate('/repository'); // Navigate to the repository list page
@@ -47,10 +47,15 @@ export const MainCard: React.FC = (): ReactElement => {
   return (
     <div className={styles.MainCardContainer}>
       <Card
-        title="GitHub Issue Explorer"
+        title='GitHub Issue Explorer'
         bordered
         actions={[
-          <Button type="primary" ghost onClick={handleSaveToken}>
+          <Button
+            type='primary'
+            disabled={!inputToken.length}
+            ghost
+            onClick={handleSaveToken}
+          >
             Browse
           </Button>,
         ]}
